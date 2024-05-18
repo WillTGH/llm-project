@@ -1,0 +1,26 @@
+normal parameter
+batch_size      : 32
+block_size      : 64
+learning_rate   : 3e-4
+max_iters       : 500
+eval_iters      : 50
+n_embd          : 384
+n_head          : 4
+n_layer         : 4
+dropout         : 0.2
+
+changed parameter
+model           : single train model-03_2 overfitting
+learning_rate   : 3e-3
+loss            : 1.65
+output          : hellofcntmtjauoal0oeoal ,1gstneeheslt.hrae ,u itticshthr0e e fs7d octeevin ensr op 6btf7eIs swh iyn otbinnr foonsysdapplooeesnctot rr
+
+model           : single train model-03_01 overfitting
+learning_rate   : 3e-4
+loss            : 3.70
+output          : pena aefosouyaenoflondr"ix ,ri,  eerit ,liHetikitedrperfst"ilalh eaag'3 Ia Gmbew hl  nefe fucintass ai -rhmse e,arehntsadbnate4 hstio o rwt
+
+model           : 2x train model-03_01 -> model-03_3 overfitting
+learning_rate   : 3e-4
+loss            : 1.21
+output          : hellok fecke drecraipkran king secovtions. Evens. He to pult sowers, and He ame yeark castee haveme the pall prow caplory Dratmanes gimt Carrio." The surba
