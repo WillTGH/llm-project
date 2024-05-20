@@ -27,9 +27,9 @@ vocab = set()
 
 start_time = time.time()
 
-with open(output_file_train.format(i), "w", encoding="utf-8") as outfile:
+with open(output_file_train.format, "w", encoding="utf-8") as outfile:
     for filename in tqdm(files_train, total=len(files_train)):
-        file_path = os.path.join(folder_path)
+        file_path = os.path.join(folder_path, filename)
         with lzma.open(file_path, "rt", encoding="utf-8") as infile:
             text = infile.read()
             outfile.write(text)
@@ -42,9 +42,9 @@ print(f"{elapsed_time:.8f}")
 
 start_time = time.time()
 
-with open(output_file_val.format(i), "w", encoding="utf-8") as outfile:
+with open(output_file_val.format, "w", encoding="utf-8") as outfile:
     for filename in tqdm(files_val, total=len(files_val)):
-        file_path = os.path.join(folder_path)
+        file_path = os.path.join(folder_path, filename)
         with lzma.open(file_path, "rt", encoding="utf-8") as infile:
             text = infile.read()
             outfile.write(text)
