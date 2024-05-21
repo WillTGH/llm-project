@@ -14,24 +14,30 @@ print(f'batch size: {arg.batch_size}')
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 print(device)
 
-#save model name model-<model number>_<saved model usedd>
-save_model = 'model-03_01.pkl'
-saved_model = 'model-01.pkl'
+#save model name model-<model number>_<saved model used>
+model_name = 'V:/llm-project/trained_models/model-04_2.pkl'
+saved_model = 'V:/llm-project/trained_models/model-04_1.pkl'
+use_trained_model = False
+
+train_file_path = "V:/llm-project/datasets/train_split.txt"
+val_file_path = "V:/llm-project/datasets/val_split.txt"
+vocab_file_path = "V:/llm-project/datasets/vocab.txt"
 
 batch_size = int(arg.batch_size)
+# batch_size = 32
 block_size = 64
 learning_rate = 3e-4
-max_iters = 100
-eval_iters = 250
+max_iters = 1000
+eval_iters = 50
 n_embd = 384
 n_head = 4
 n_layer = 4
 dropout = 0.2
 
-with open('V:/llm-project/corpus_datasets/vocab.txt', 'r', encoding='utf-8') as f:
+with open(vocab_file_path, 'r', encoding='utf-8') as f:
     text = f.read()
 chars = sorted(set(text))
-print(chars)
+# print(chars)
 vocab_size = len(chars)
 print(vocab_size)
 
@@ -41,7 +47,7 @@ encode = lambda s: [string_to_int[c] for c in s]
 decode = lambda l: ''.join([int_to_string[i] for i in l])
 
 def get_random_chunk(split):
-    filename = "V:/llm-project/corpus_datasets/train_split.txt" if split == 'train' else "V:/llm-project/corpus_datasets/val_split.txt"
+    filename = train_file_path if split == 'train' else val_file_path
     with open(filename, 'rb') as f:
         with mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ) as mm:
             # Determine the file size and a random position to start reading
@@ -229,10 +235,12 @@ class GPTLanguageModel(nn.Module):
         return index
 
 model = GPTLanguageModel(vocab_size)
-print('loading model parameters...')
-with open(saved_model, 'rb') as f:
-    model = pickle.load(f)
-print('loaded successfully!')
+
+if(use_trained_model):
+    print('loading model parameters...')
+    with open(saved_model, 'rb') as f:
+        model = pickle.load(f)
+    print('loaded successfully!')
 m = model.to(device)
 
 optimizer = torch.optim.AdamW(model.parameters(), lr=learning_rate)
@@ -253,6 +261,6 @@ for iter in range(max_iters):
 
 print(loss.item())
 
-with open(save_model, "wb") as f:
+with open(model_name, "wb") as f:
     pickle.dump(model, f)
 print("model saved")

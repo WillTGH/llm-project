@@ -18,7 +18,7 @@ import pickle
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
-model_name = 'model-01.pkl'
+model_name = 'V:/llm-project/trained_models/model-04_1.pkl'
 
 batch_size = 32 #int(args.batch_size)
 block_size = 64
@@ -33,7 +33,7 @@ dropout = 0.2
 print(device)
 
 chars = ""
-with open("V:/llm-project/corpus_datasets/vocab.txt", 'r', encoding='utf-8') as f:
+with open("V:/llm-project/datasets/vocab.txt", 'r', encoding='utf-8') as f:
         text = f.read()
         chars = sorted(list(set(text)))
         
