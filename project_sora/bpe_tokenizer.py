@@ -9,10 +9,17 @@ from tokenizers.processors import TemplateProcessing
 from tokenizers.trainers import BpeTrainer
 
 import nltk
+from nltk.data import find
 from nltk.corpus import gutenberg
-nltk.download('gutenberg')
-nltk.download('punkt')
-vocab_size = 5000
+
+nltk.download('gutenberg', download_dir='V:/llm-project/datasets')
+try:
+    find('V:/llm-project/datasets/corpora/gutenberg')
+    print('Corpora Gutenberg is There')
+except LookupError:
+    print('Corpora Gutenberg is Not There')
+    
+vocab_size = 1000000
 
 class BPETokenizer():
     def __init__(self, vocab_size, text = None):
