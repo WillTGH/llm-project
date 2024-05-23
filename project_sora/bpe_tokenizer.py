@@ -13,17 +13,42 @@ from nltk.data import find
 from nltk.corpus import gutenberg
 
 nltk.download('gutenberg', download_dir='V:/llm-project/datasets')
+file_path = 'V:/llm-project/datasets/corpora/gutenberg/'
 try:
     find('V:/llm-project/datasets/corpora/gutenberg')
     print('Corpora Gutenberg is There')
 except LookupError:
     print('Corpora Gutenberg is Not There')
-    
+
 vocab_size = 1000000
 
 class BPETokenizer():
     def __init__(self, vocab_size, text = None):
-        self.plays = ['shakespeare-macbeth.txt','shakespeare-hamlet.txt','shakespeare-caesar.txt']
+        self.plays = [
+    f'{file_path}austen-sense.txt',
+    f'{file_path}blake-poems.txt',
+    f'{file_path}austen-persuasion.txt',
+    f'{file_path}austen-emma.txt',
+    f'{file_path}bryant-stories.txt',
+    f'{file_path}burgess-busterbrown.txt',
+    f'{file_path}bismarck.txt',
+    f'{file_path}carroll-alice.txt',
+    f'{file_path}chesterton-ball.txt',
+    f'{file_path}chesterton-brown.txt',
+    f'{file_path}chesterton-thursday.txt',
+    f'{file_path}corpus1.txt',
+    f'{file_path}corpus2.txt',
+    f'{file_path}corpus3.txt',
+    f'{file_path}corpus4.txt',
+    f'{file_path}corpus5.txt',
+    f'{file_path}edgeworth-parents.txt',
+    f'{file_path}melville-moby_dick.txt',
+    f'{file_path}milton-paradise.txt',
+    f'{file_path}shakespeare-macbeth.txt',
+    f'{file_path}shakespeare-hamlet.txt',
+    f'{file_path}shakespeare-caesar.txt',
+    f'{file_path}whitman-leaves.txt'
+    ]
         self.shakespeare = [" ".join(s) for ply in self.plays for s in gutenberg.sents(ply)]
 
         self.special_tokens=["[UNK]","[CLS]","[SEP]","[PAD]","[MASK]"]
