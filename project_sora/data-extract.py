@@ -3,6 +3,10 @@ import lzma
 from tqdm import tqdm
 import time
 
+import bpe_tokenizer
+bpe = bpe_tokenizer.BPETokenizer(vocab_size=5000)
+bpe.tokenizer_train()
+
 def xz_files_in_dir(directory):
     files = []
     for filename in os.listdir(directory):
@@ -20,8 +24,8 @@ files = xz_files_in_dir(folder_path)
 total_files = len(files)
 
 split_index = int(total_files * 0.9) # 90% for training
-files_train = files[:split_index]
-files_val = files[split_index:]
+files_train = files[:100]
+files_val = files[101:151]
 
 vocab = set()
 
@@ -33,8 +37,9 @@ with open(output_file_train, "w", encoding="utf-8") as outfile:
         with lzma.open(file_path, "rt", encoding="utf-8") as infile:
             text = infile.read()
             outfile.write(text)
-            characters = set(text)
-            vocab.update(characters)
+            sub_word = bpe.tokenize(text)
+            sb = set(sub_word)
+            vocab.update(sb)
 
 end_time = time.time()
 elapsed_time = end_time - start_time
@@ -48,8 +53,9 @@ with open(output_file_val, "w", encoding="utf-8") as outfile:
         with lzma.open(file_path, "rt", encoding="utf-8") as infile:
             text = infile.read()
             outfile.write(text)
-            characters = set(text)
-            vocab.update(characters)
+            sub_word = bpe.tokenize(text)
+            sb = set(sub_word)
+            vocab.update(sb)
 
 end_time = time.time()
 elapsed_time = end_time - start_time
