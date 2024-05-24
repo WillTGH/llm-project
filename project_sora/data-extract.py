@@ -3,6 +3,7 @@ import lzma
 from tqdm import tqdm
 import time
 
+
 # import bpe_tokenizer
 # bpe = bpe_tokenizer.BPETokenizer(vocab_size=5000)
 # bpe.tokenizer_train()
@@ -37,10 +38,12 @@ with open(output_file_train, "w", encoding="utf-8") as outfile:
         with lzma.open(file_path, "rt", encoding="utf-8") as infile:
             text = infile.read()
             
+            #character level
             outfile.write(text)
             characters = set(text)
             vocab.update(characters)
 
+            #sub-word level
             # sub_word = bpe.tokenize(text)
             # sb = set(sub_word)
             # vocab.update(sb)
@@ -56,11 +59,13 @@ with open(output_file_val, "w", encoding="utf-8") as outfile:
         file_path = os.path.join(folder_path,filename)
         with lzma.open(file_path, "rt", encoding="utf-8") as infile:
             text = infile.read()
-            
+
+            #character level
             outfile.write(text)
             characters = set(text)
             vocab.update(characters)
 
+            #sub-word level
             # sub_word = bpe.tokenize(text)
             # sb = set(sub_word)
             # vocab.update(sb)
