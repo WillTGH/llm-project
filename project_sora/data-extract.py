@@ -3,9 +3,9 @@ import lzma
 from tqdm import tqdm
 import time
 
-import bpe_tokenizer
-bpe = bpe_tokenizer.BPETokenizer(vocab_size=5000)
-bpe.tokenizer_train()
+# import bpe_tokenizer
+# bpe = bpe_tokenizer.BPETokenizer(vocab_size=5000)
+# bpe.tokenizer_train()
 
 def xz_files_in_dir(directory):
     files = []
@@ -31,15 +31,19 @@ vocab = set()
 
 start_time = time.time()
 
-# with open(output_file_train, "w", encoding="utf-8") as outfile:
-for filename in tqdm(files_train, total=len(files_train)):
-    file_path = os.path.join(folder_path, filename)
-    with lzma.open(file_path, "rt", encoding="utf-8") as infile:
-        text = infile.read()
-        # outfile.write(text)
-        sub_word = bpe.tokenize(text)
-        sb = set(sub_word)
-        vocab.update(sb)
+with open(output_file_train, "w", encoding="utf-8") as outfile:
+    for filename in tqdm(files_train, total=len(files_train)):
+        file_path = os.path.join(folder_path, filename)
+        with lzma.open(file_path, "rt", encoding="utf-8") as infile:
+            text = infile.read()
+            
+            outfile.write(text)
+            characters = set(text)
+            vocab.update(characters)
+
+            # sub_word = bpe.tokenize(text)
+            # sb = set(sub_word)
+            # vocab.update(sb)
 
 end_time = time.time()
 elapsed_time = end_time - start_time
@@ -47,15 +51,19 @@ print(f"{elapsed_time:.8f}")
 
 start_time = time.time()
 
-# with open(output_file_val, "w", encoding="utf-8") as outfile:
-for filename in tqdm(files_val, total=len(files_val)):
-    file_path = os.path.join(folder_path,filename)
-    with lzma.open(file_path, "rt", encoding="utf-8") as infile:
-        text = infile.read()
-        # outfile.write(text)
-        sub_word = bpe.tokenize(text)
-        sb = set(sub_word)
-        vocab.update(sb)
+with open(output_file_val, "w", encoding="utf-8") as outfile:
+    for filename in tqdm(files_val, total=len(files_val)):
+        file_path = os.path.join(folder_path,filename)
+        with lzma.open(file_path, "rt", encoding="utf-8") as infile:
+            text = infile.read()
+            
+            outfile.write(text)
+            characters = set(text)
+            vocab.update(characters)
+
+            # sub_word = bpe.tokenize(text)
+            # sb = set(sub_word)
+            # vocab.update(sb)
 
 end_time = time.time()
 elapsed_time = end_time - start_time
