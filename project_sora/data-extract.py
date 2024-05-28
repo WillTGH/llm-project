@@ -2,11 +2,18 @@ import os
 import lzma
 from tqdm import tqdm
 import time
+import argparse
+import bpe_tokenizer
 
+parser = argparse.ArgumentParser(description='data-extract')
+parser.add_argument('-charlvl', type=str, required=True, help='1 for char level, 0 for sub word:')
+arg = parser.parse_args()
+print(f'Tokenizer Character level 1/0: {arg.charlvl}')
 
-# import bpe_tokenizer
-# bpe = bpe_tokenizer.BPETokenizer(vocab_size=5000)
-# bpe.tokenizer_train()
+charlvl = int(arg.charlvl)
+
+bpe = bpe_tokenizer.BPETokenizer(vocab_size=1000000)
+bpe.tokenizer_train()
 
 def xz_files_in_dir(directory):
     files = []
@@ -15,10 +22,14 @@ def xz_files_in_dir(directory):
             files.append(filename)
     return files
 
-folder_path = "V:/llm-project/datasets/openwebtext"
-output_file_train = "train_split.txt"
-output_file_val = "val_split.txt"
-vocab_file = "vocab.txt"
+folder_path = "V:/llm-project/datasets/test"
+
+prefix = 'sw_'
+output_file_train = f'{prefix}train_split.txt'
+output_file_val = f'{prefix}val_split.txt'
+vocab_file = f'{prefix}vocab.txt'
+
+
 
 files = xz_files_in_dir(folder_path)
 
@@ -30,6 +41,8 @@ files_val = files[split_index:]
 
 vocab = set()
 
+print(f'0 for character level, 1 for sub-word level: {charlvl}')
+
 start_time = time.time()
 
 with open(output_file_train, "w", encoding="utf-8") as outfile:
@@ -38,15 +51,17 @@ with open(output_file_train, "w", encoding="utf-8") as outfile:
         with lzma.open(file_path, "rt", encoding="utf-8") as infile:
             text = infile.read()
             
-            #character level
-            outfile.write(text)
-            characters = set(text)
-            vocab.update(characters)
-
-            #sub-word level
-            # sub_word = bpe.tokenize(text)
-            # sb = set(sub_word)
-            # vocab.update(sb)
+            if(charlvl == 1):
+                #character level
+                outfile.write(text)
+                characters = set(text)
+                vocab.update(characters)
+            else:
+                #sub-word level
+                outfile.write(text)
+                sub_word = bpe.tokenize(text)
+                sb = set(sub_word)
+                vocab.update(sb)
 
 end_time = time.time()
 elapsed_time = end_time - start_time
@@ -60,15 +75,17 @@ with open(output_file_val, "w", encoding="utf-8") as outfile:
         with lzma.open(file_path, "rt", encoding="utf-8") as infile:
             text = infile.read()
 
-            #character level
-            outfile.write(text)
-            characters = set(text)
-            vocab.update(characters)
-
-            #sub-word level
-            # sub_word = bpe.tokenize(text)
-            # sb = set(sub_word)
-            # vocab.update(sb)
+            if(charlvl == 1):
+                #character level
+                outfile.write(text)
+                characters = set(text)
+                vocab.update(characters)
+            else:
+                #sub-word level
+                outfile.write(text)
+                sub_word = bpe.tokenize(text)
+                sb = set(sub_word)
+                vocab.update(sb)
 
 end_time = time.time()
 elapsed_time = end_time - start_time
