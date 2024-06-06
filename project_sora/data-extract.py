@@ -4,7 +4,7 @@ from tqdm import tqdm
 import time
 import argparse
 import bpe_tokenizer
-
+import regex as re
 
 parser = argparse.ArgumentParser(description='data-extract')
 parser.add_argument('-charlvl', type=str, required=True, help='1 for char level, 0 for sub word:')
@@ -59,6 +59,8 @@ with open(output_file_train, "w", encoding="utf-8") as outfile:
                 #sub-word level
                 outfile.write(text)
                 sub_word = bpe.tokenize(text)
+                # regex = re.compile(r"""'s|'t|'re|'ve|'m|'ll|'d| ?\p{L}+| ?\p{N}+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+""")
+                # rgx = re.findall(regex, sub_word) #regex get words and break things like 12d124d1d4g3g
                 sb = set(sub_word)
                 vocab.update(sb)
 
@@ -83,6 +85,8 @@ with open(output_file_val, "w", encoding="utf-8") as outfile:
                 #sub-word level
                 outfile.write(text)
                 sub_word = bpe.tokenize(text)
+                # regex = re.compile(r"""'s|'t|'re|'ve|'m|'ll|'d| ?\p{L}+| ?\p{N}+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+""")
+                # rgx = re.findall(regex, sub_word) #regex get words and break things like 12d124d1d4g3g
                 sb = set(sub_word)
                 vocab.update(sb)
 

@@ -84,6 +84,7 @@ class BPETokenizer():
         #text = "in the village churches the medals won at Waterloo were hung up by those of Grossbehren and Leipzig."
         regex = re.compile(r"""'s|'t|'re|'ve|'m|'ll|'d| ?\p{L}+| ?\p{N}+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+""")
         rgx = re.findall(regex, text) #regex get words and break things like 12d124d1d4g3g
-        sen_enc=self.tokenizer.encode(rgx)
-        return sen_enc.tokens
+        text = " " . join(rgx)
+        sen_enc=self.tokenizer.encode(text)
         # print(f"Output: {sen_enc.tokens}")
+        return sen_enc.tokens
