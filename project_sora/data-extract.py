@@ -5,6 +5,7 @@ import time
 import argparse
 import bpe_tokenizer
 
+
 parser = argparse.ArgumentParser(description='data-extract')
 parser.add_argument('-charlvl', type=str, required=True, help='1 for char level, 0 for sub word:')
 arg = parser.parse_args()
@@ -29,8 +30,6 @@ output_file_train = f'{prefix}train_split.txt'
 output_file_val = f'{prefix}val_split.txt'
 vocab_file = f'{prefix}vocab.txt'
 
-
-
 files = xz_files_in_dir(folder_path)
 
 total_files = len(files)
@@ -50,7 +49,7 @@ with open(output_file_train, "w", encoding="utf-8") as outfile:
         file_path = os.path.join(folder_path, filename)
         with lzma.open(file_path, "rt", encoding="utf-8") as infile:
             text = infile.read()
-            
+
             if(charlvl == 1):
                 #character level
                 outfile.write(text)

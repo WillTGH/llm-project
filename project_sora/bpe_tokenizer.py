@@ -12,15 +12,19 @@ import nltk
 from nltk.data import find
 from nltk.corpus import gutenberg
 
+import regex as re
+
 nltk.download('gutenberg', download_dir='V:/llm-project/datasets')
+nltk.download('punkt')
+
 file_path = 'V:/llm-project/datasets/corpora/gutenberg/'
 try:
-    find('V:/llm-project/datasets/corpora/gutenberg')
+    find('V:/llm-project/datasets/corpora/')
     print('Corpora Gutenberg is There')
 except LookupError:
     print('Corpora Gutenberg is Not There')
 
-vocab_size = 1000000
+# vocab_size = 1000000
 
 class BPETokenizer():
     def __init__(self, vocab_size, text = None):
@@ -78,6 +82,8 @@ class BPETokenizer():
 
     def tokenize(self, text):
         #text = "in the village churches the medals won at Waterloo were hung up by those of Grossbehren and Leipzig."
-        sen_enc=self.tokenizer.encode(text)
+        regex = re.compile(r"""'s|'t|'re|'ve|'m|'ll|'d| ?\p{L}+| ?\p{N}+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+""")
+        rgx = re.findall(regex, text) #regex get words and break things like 12d124d1d4g3g
+        sen_enc=self.tokenizer.encode(rgx)
         return sen_enc.tokens
         # print(f"Output: {sen_enc.tokens}")
