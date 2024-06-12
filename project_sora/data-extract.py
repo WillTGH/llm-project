@@ -6,7 +6,8 @@ import argparse
 
 #other python file
 # import bpe_tokenizer
-import tiktoken_tokenizer
+# import tiktoken_tokenizer
+import huggingface_tokenizer
 
 parser = argparse.ArgumentParser(description='data-extract')
 parser.add_argument('-charlvl', type=str, required=True, help='1 for char level, 0 for sub word:')
@@ -15,9 +16,9 @@ print(f'Tokenizer Character level 1/0: {arg.charlvl}')
 
 charlvl = int(arg.charlvl)
 
-# bpe = bpe_tokenizer.BPETokenizer(vocab_size=1000000)
-
-ttkToken = tiktoken_tokenizer.TTK_Tokenizer()
+# tokenizer = bpe_tokenizer.BPETokenizer(vocab_size=1000000)
+# tokenizer = tiktoken_tokenizer.TTK_Tokenizer()
+tokenizer = huggingface_tokenizer.tokenizer_huggingface()
 
 def xz_files_in_dir(directory):
     files = []
@@ -61,8 +62,7 @@ with open(output_file_train, "w", encoding="utf-8") as outfile:
             else:
                 #sub-word level
                 outfile.write(text)
-                sub_word = ttkToken.tokenize(text=text)
-                # sb = set(sub_word)
+                sub_word = tokenizer.tokenize(text)
                 vocab.update(sub_word)
 
 end_time = time.time()
@@ -85,8 +85,7 @@ with open(output_file_val, "w", encoding="utf-8") as outfile:
             else:
                 #sub-word level
                 outfile.write(text)
-                sub_word = ttkToken.tokenize(text=text)
-                # sb = set(sub_word)
+                sub_word = tokenizer.tokenize(text)
                 vocab.update(sub_word)
 
 end_time = time.time()
